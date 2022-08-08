@@ -20,8 +20,15 @@ public class Student {
     private LocalDate dob;
     private Status status;
 
-    public Student(int id, String name, String phoneNumber, LocalDate dob, Status status) {
-        this.id = id;
+//    public Student(int id, String name, String phoneNumber, LocalDate dob, Status status) {
+//        this.id = id;
+//        this.name = name;
+//        this.phoneNumber = phoneNumber;
+//        this.dob = dob;
+//        this.status = status;
+//    }
+
+    public Student(String name, String phoneNumber, LocalDate dob, Status status) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.dob = dob;

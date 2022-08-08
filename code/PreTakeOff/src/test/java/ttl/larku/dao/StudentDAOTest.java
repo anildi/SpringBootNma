@@ -1,17 +1,17 @@
 package ttl.larku.dao;
 
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import ttl.larku.domain.Student;
-
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.time.LocalDate;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import ttl.larku.domain.Student;
 
 /**
  * @author whynot
@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class StudentDAOTest {
 
     private StudentDAO dao;
-    private int goodId = 10;
+    private int goodId = 1;
     private int badId = 10000;
 
     @BeforeAll
@@ -30,7 +30,7 @@ public class StudentDAOTest {
     @BeforeEach
     public void init() {
         dao = new StudentDAO();
-        Student student = new Student(goodId, "Joe", "383 9393 9393", LocalDate.of(2000, 10, 10), Student.Status.FULL_TIME);
+        Student student = new Student("Joe", "383 9393 9393", LocalDate.of(2000, 10, 10), Student.Status.FULL_TIME);
         dao.insert(student);
     }
 
@@ -39,14 +39,14 @@ public class StudentDAOTest {
         Student insertedStudent = dao.get(goodId);
 
         assertNotNull(insertedStudent);
-        assertEquals(10, insertedStudent.getId());
+        assertEquals(goodId, insertedStudent.getId());
     }
 
     @Test
     public void testDeleteExisting() {
         Student student = dao.get(goodId);
 
-        boolean result = dao.delete(10);
+        boolean result = dao.delete(goodId);
 
         assertTrue(result);
     }

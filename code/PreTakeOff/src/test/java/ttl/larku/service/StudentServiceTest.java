@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class StudentServiceTest {
 
     private StudentService studentService;
-    private int goodId = 10;
+    private int goodId = 1;
     private int badId = 10000;
+    Student student = new Student("Joe", "383 9393 9393", LocalDate.of(2000, 10, 10), Student.Status.FULL_TIME);
 
     @BeforeEach
     public void init() {
         studentService = new StudentService();
-        Student student = new Student(goodId, "Joe", "383 9393 9393", LocalDate.of(2000, 10, 10), Student.Status.FULL_TIME);
         studentService.addStudent(student);
     }
 
@@ -30,6 +30,14 @@ public class StudentServiceTest {
         Student s = studentService.getStudent(goodId);
 
         assertNotNull(s);
-        assertEquals(10, s.getId());
+        assertEquals(goodId, s.getId());
+    }
+
+    @Test
+    public void testAddStudentAgain() {
+       Student newStudent = studentService.addStudent(student); 
+
+        assertNotNull(newStudent);
+        assertEquals(goodId + 1, newStudent.getId());
     }
 }

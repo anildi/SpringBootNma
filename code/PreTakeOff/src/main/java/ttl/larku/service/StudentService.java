@@ -14,7 +14,7 @@ public class StudentService {
     private StudentDAO studentDAO = new StudentDAO();
 
     public Student addStudent(String name, String phoneNumber, LocalDate dob, Student.Status status) {
-        Student s = new Student(10, name, phoneNumber, dob, status);
+        Student s = new Student(name, phoneNumber, dob, status);
         return addStudent(s);
     }
 

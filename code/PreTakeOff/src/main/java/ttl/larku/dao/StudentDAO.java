@@ -1,22 +1,29 @@
 package ttl.larku.dao;
 
-import ttl.larku.domain.Student;
-
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
+import ttl.larku.domain.Student;
 
 /**
  * @author whynot
  */
 public class StudentDAO {
 
-    private Map<Integer, Student> students = new HashMap<>();
+//    private Map<Integer, Student> students = new HashMap<>();
+    private Map<Integer, Student> students = new ConcurrentHashMap<>();
+    private AtomicInteger nextId = new AtomicInteger(1);
+//    private int nextId = 1;
 
     public Student insert(Student s) {
+//    	int id = nextId++;
+    	int id = nextId.getAndIncrement();
+    	s.setId(id);
         students.put(s.getId(), s);
+
         return s;
     }
 
@@ -29,13 +36,13 @@ public class StudentDAO {
     }
 
     public boolean delete(int id) {
-      Student s = students.remove(id);
-      if(s == null) {
-          return false;
-      }
-      return true;
+//      Student s = students.remove(id);
+//      if(s == null) {
+//          return false;
+//      }
+//      return true;
 
-//       return students.remove(id) != null;
+       return students.remove(id) != null;
     }
 
     public boolean update(Student newStudent) {
