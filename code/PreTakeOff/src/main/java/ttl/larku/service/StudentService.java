@@ -5,6 +5,7 @@ import ttl.larku.domain.Student;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 /**
  * @author whynot
@@ -31,5 +32,9 @@ public class StudentService {
 
     public Student getStudent(int id) {
         return studentDAO.get(id);
+    }
+
+    public List<Student> getAllStudents() {
+        return studentDAO.getAll();
     }
 }

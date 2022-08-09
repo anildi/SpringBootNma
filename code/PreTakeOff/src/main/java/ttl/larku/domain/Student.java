@@ -8,6 +8,7 @@ import java.util.Objects;
  */
 public class Student {
 
+
     public enum Status{
         FULL_TIME,
         PART_TIME,
@@ -101,4 +102,9 @@ public class Student {
     public int hashCode() {
         return Objects.hash(id, name, phoneNumber, dob, status);
     }
+
+//    @Override
+//    public int compareTo(Student other) {
+//        return Integer.compare(id, other.id);
+//    }
 }
