@@ -6,6 +6,7 @@ All rights reserved by The Third Lane, LLC.
 package ttl.larku.jconfig;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import ttl.larku.dao.BaseDAO;
 import ttl.larku.dao.inmemory.InMemoryClassDAO;
@@ -18,6 +19,7 @@ import ttl.larku.service.ClassService;
 import ttl.larku.service.CourseService;
 
 @Configuration
+@ComponentScan(basePackages = {"ttl.larku.service"})
 public class LarkUConfig {
 
     @Bean
