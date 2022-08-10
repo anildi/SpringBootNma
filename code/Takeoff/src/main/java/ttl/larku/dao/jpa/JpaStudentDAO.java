@@ -5,27 +5,30 @@ All rights reserved by The Third Lane, LLC.
 
 package ttl.larku.dao.jpa;
 
-import ttl.larku.domain.Student;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class JpaStudentDAO {
+import ttl.larku.dao.inmemory.StudentDAO;
+import ttl.larku.domain.Student;
+
+public class JpaStudentDAO implements StudentDAO{
 
     private Map<Integer, Student> students = new HashMap<Integer, Student>();
     private static AtomicInteger nextId = new AtomicInteger(0);
 
-    public void update(Student updateObject) {
+    public boolean update(Student updateObject) {
         if (students.containsKey(updateObject.getId())) {
             students.put(updateObject.getId(), updateObject);
+            return true;
         }
+        return false;
     }
 
-    public void delete(Student student) {
-        students.remove(student.getId());
+    public boolean delete(Student student) {
+        return students.remove(student.getId()) != null;
     }
 
     public Student create(Student newObject) {

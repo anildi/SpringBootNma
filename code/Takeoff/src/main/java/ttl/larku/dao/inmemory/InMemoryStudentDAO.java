@@ -13,12 +13,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class InMemoryStudentDAO {
+public class InMemoryStudentDAO implements StudentDAO {
 
     private Map<Integer, Student> students = new HashMap<Integer, Student>();
     private static AtomicInteger nextId = new AtomicInteger(0);
 
-    public boolean update(Student updateObject) {
+    @Override
+	public boolean update(Student updateObject) {
         if (students.containsKey(updateObject.getId())) {
             students.put(updateObject.getId(), updateObject);
             return true;
@@ -26,11 +27,13 @@ public class InMemoryStudentDAO {
         return false;
     }
 
-    public boolean delete(Student student) {
+    @Override
+	public boolean delete(Student student) {
         return students.remove(student.getId()) != null;
     }
 
-    public Student create(Student newObject) {
+    @Override
+	public Student create(Student newObject) {
         //Create a new Id
         int newId = nextId.getAndIncrement();
         newObject.setId(newId);
@@ -39,11 +42,13 @@ public class InMemoryStudentDAO {
         return newObject;
     }
 
-    public Student get(int id) {
+    @Override
+	public Student get(int id) {
         return students.get(id);
     }
 
-    public List<Student> getAll() {
+    @Override
+	public List<Student> getAll() {
         return new ArrayList<Student>(students.values());
     }
 

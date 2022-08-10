@@ -60,7 +60,7 @@ public class MyFactory {
     public static StudentService studentService() {
         StudentService ss = new StudentService();
 
-        ss.setStudentDAO(studentDAO());
+//        ss.setStudentDAO(studentDAO());
 
         return ss;
     }
