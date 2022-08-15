@@ -18,8 +18,6 @@ public class StudentService {
     public StudentService() {
     }
 
-    private CourseService cs;
-
     public Student createStudent(String name, String phoneNumber, Student.Status status) {
         Student student = new Student(name, phoneNumber, status);
         student = createStudent(student);
@@ -77,11 +75,4 @@ public class StudentService {
         studentDAO.createStore();
     }
 
-    public CourseService getCs() {
-        return cs;
-    }
-
-    public void setCs(CourseService cs) {
-        this.cs = cs;
-    }
 }
