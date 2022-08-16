@@ -5,6 +5,8 @@ All rights reserved by The Third Lane, LLC.
 
 package ttl.larku.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +79,7 @@ public class Student {
         this.name = name;
     }
 
-//    @JsonIgnore
+    @JsonIgnore
     public Status[] getStatusList() {
         return Status.values();
     }
