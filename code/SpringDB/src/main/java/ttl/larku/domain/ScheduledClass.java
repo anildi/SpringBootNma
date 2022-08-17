@@ -32,8 +32,9 @@ public class ScheduledClass {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToMany(mappedBy = "classes", fetch = FetchType.LAZY)
     @JsonProperty(access = Access.WRITE_ONLY)
+
+    @ManyToMany(mappedBy = "classes", fetch = FetchType.LAZY)
     private List<Student> students = new ArrayList<Student>();
 
     @JsonDeserialize(using = LocalDateDeserializer.class)

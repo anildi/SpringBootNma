@@ -5,12 +5,14 @@ All rights reserved by The Third Lane, LLC.
 
 package ttl.larku.service;
 
+import org.springframework.transaction.annotation.Transactional;
 import ttl.larku.dao.BaseDAO;
 import ttl.larku.domain.Student;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Transactional
 public class StudentService {
 
     private BaseDAO<Student> studentDAO;
