@@ -7,6 +7,7 @@ import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateSerializer;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class Student {
     @NotNull
     private String name;
 
+    @NotNull
+    @Size(min = 10, message = "Phonenumber must be at least 10 digits")
     private String phoneNumber;
 
     @JsonDeserialize(using = LocalDateDeserializer.class)

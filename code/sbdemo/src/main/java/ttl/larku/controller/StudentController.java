@@ -1,6 +1,7 @@
 package ttl.larku.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -48,7 +49,7 @@ public class StudentController {
         return students;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<?> getStudent(@PathVariable("id") int id) {
         Student s = studentService.getStudent(id);
         if(s == null) {
@@ -71,6 +72,24 @@ public class StudentController {
 
         //return ResponseEntity.created(newResource).body(newStudent);
         return ResponseEntity.created(newResource).build();
+    }
+
+    @PostMapping("/many")
+    public ResponseEntity<?> addManyStudents(@RequestBody List<Student> students) {
+        for(Student student : students) {
+            Student newStudent = studentService.createStudent(student);
+
+            //http://localhost:8080/student/newStudent.getId()
+//        URI newResource = ServletUriComponentsBuilder
+//                .fromCurrentRequest()
+//                .path("/{id}")
+//                .buildAndExpand(newStudent.getId())
+//                .toUri();
+//            URI newResource = uriCreator.createUri(newStudent.getId());
+
+            //return ResponseEntity.created(newResource).body(newStudent);
+        }
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")

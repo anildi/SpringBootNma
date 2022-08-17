@@ -17,7 +17,7 @@
     <description>Demo project for Spring Boot</description>
 
     <properties>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
     </properties>
 
     <dependencies>
@@ -63,7 +63,6 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- This one is for allowing json serialization of new Date Time APIs -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>

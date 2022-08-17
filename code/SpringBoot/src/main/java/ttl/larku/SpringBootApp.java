@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.availability.AvailabilityChangeEvent;
+import org.springframework.boot.availability.AvailabilityState;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.event.SpringApplicationEvent;
 import org.springframework.context.ApplicationContextInitializer;
@@ -105,11 +106,15 @@ class ApplicationCommandLineRunner implements ApplicationRunner {
 
         Set<String> optionNames = args.getOptionNames();
         System.out.println("optionNames");
-        optionNames.forEach(System.out::println);
+        optionNames.forEach(this::addIndent);
 
-        List<String> optionValues = args.getOptionValues("verbose");
-        System.out.println("debug optionValue");
-        if(optionValues != null) optionValues.forEach(System.out::println);
+        List<String> optionValues = args.getOptionValues("select");
+        System.out.println("optionValues");
+        if(optionValues != null) optionValues.forEach(String::length);
+    }
+
+    public void addIndent(String s) {
+        System.out.println("    " + s);
     }
 }
 
@@ -129,9 +134,9 @@ class GeneralEventListener {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     @EventListener
-    @Async
+//    @Async
     public void handleStudentCreatedEvent(StudentCreatedEvent event) {
-        logger.info("Student Created: " + event + " in " + Thread.currentThread());
+        logger.info("Handle Student Created: " + event + " in " + Thread.currentThread());
     }
 
     @EventListener
@@ -158,21 +163,24 @@ class OtherContextRefreshedHandler {
 
 
 //@Component
-class AllEventListener {
-    @EventListener
-    public void listenToAllEvents(ApplicationEvent event) {
-        System.out.println("Event happened: " + event);
-        if(event instanceof SpringApplicationEvent) {
-            System.out.println("SpringBoot event");
-//            SpringApplicationEvent sae = (SpringApplicationEvent)event;
-//            for(String arg: sae.getArgs()) {
-//                System.out.println("arg: " + arg);
-//            }
-        }
-        if(event instanceof AvailabilityChangeEvent) {
-            AvailabilityChangeEvent ace = (AvailabilityChangeEvent) event;
-            System.out.println("AvailabilityChanged new State: " + ace.getState());
-        }
-
-    }
-}
+//class AllEventListener {
+//    @EventListener
+//    public void listenToAllEvents(ApplicationEvent event) {
+//        System.out.println("Event happened: " + event);
+//        if(event instanceof SpringApplicationEvent) {
+//            System.out.println("SpringBoot event");
+////            SpringApplicationEvent sae = (SpringApplicationEvent)event;
+////            for(String arg: sae.getArgs()) {
+////                System.out.println("arg: " + arg);
+////            }
+//        }
+//        //Will only work with java 17.  Else you need an
+          //old-fashioned caste and the @SuppressWarnings
+//        if(event instanceof AvailabilityChangeEvent ace) {
+////            @SuppressWarnings({"rawtypes", "unchecked"})
+////            AvailabilityChangeEvent<AvailabilityState> ace = (AvailabilityChangeEvent) event;
+//            System.out.println("AvailabilityChanged new State: " + ace.getState());
+//        }
+//
+//    }
+//}

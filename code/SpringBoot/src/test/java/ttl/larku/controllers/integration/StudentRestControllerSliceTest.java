@@ -6,9 +6,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
@@ -18,6 +20,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import ttl.larku.controllers.rest.StudentRestController;
+import ttl.larku.controllers.rest.UriCreator;
 import ttl.larku.domain.Student;
 import ttl.larku.service.StudentService;
 
@@ -39,11 +43,13 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Tag("integration")
-@Disabled
 public class StudentRestControllerSliceTest {
 
     @MockBean
     private StudentService studentService;
+
+    @MockBean
+    private UriCreator uriCreator;
 
     @Autowired
     private MockMvc mockMvc;
@@ -57,6 +63,8 @@ public class StudentRestControllerSliceTest {
 
     @BeforeEach
     public void setup() {
+        int count = context.getBeanDefinitionCount();
+        System.out.println("Bean count = " + count);
 
         List<Student> students = Arrays.asList(new Student("Manoj", "282 929 9292", Student.Status.FULL_TIME),
                 new Student("Alice", "393 9393 030", Student.Status.HIBERNATING));
@@ -143,6 +151,24 @@ public class StudentRestControllerSliceTest {
 
     }
 
+    //Use if validation is on in Student Controller
+    @Test
+    public void testAddStudentWithInvalidPhoneNumber() throws Exception {
+
+        Student student = new Student("Yogita");
+        student.setPhoneNumber("202 383");
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonString = mapper.writeValueAsString(student);
+
+        ResultActions actions = mockMvc.perform(post("/adminrest/student/").accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON).content(jsonString));
+
+        actions = actions.andExpect(status().isBadRequest());
+
+        Mockito.verify(studentService, never()).createStudent(student);
+
+    }
+
     @Test
     public void testAddStudentWithNoContentType() throws Exception {
 
@@ -177,5 +203,30 @@ public class StudentRestControllerSliceTest {
         System.out.println("resp = " + jsonString);
         
         Mockito.verify(studentService).getAllStudents();
+    }
+
+    @Test
+    public void testGetOneCourseGoodJson() throws Exception {
+        MediaType accept = MediaType.APPLICATION_JSON;
+        MediaType contentType = accept;
+
+        MockHttpServletRequestBuilder builder = get("/adminrest/course/{id}", 1)
+                .accept(accept)
+                .contentType(contentType);
+
+
+        ResultActions actions = mockMvc.perform(builder);
+
+        actions = actions.andExpect(status().isOk())
+                .andExpect(content().contentType(contentType))
+                .andExpect(jsonPath("$.entity.code").value(containsString("BKTW-101")));
+
+        // Get the result and return it
+        MvcResult result = actions.andReturn();
+
+        MockHttpServletResponse response = result.getResponse();
+        String jsonString = response.getContentAsString();
+
+        System.out.println("One course good resp = " + jsonString);
     }
 }
