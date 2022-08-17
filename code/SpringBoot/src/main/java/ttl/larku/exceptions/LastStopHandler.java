@@ -39,7 +39,7 @@ import java.util.List;
  *   Have not quite chased down how/why the second property matters.
  */
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class LastStopHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class})
